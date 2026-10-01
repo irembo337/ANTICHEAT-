@@ -3,6 +3,7 @@ using LabFusion.Network;
 using LabFusion.Player;
 using LabFusion.Preferences.Client;
 using LabFusion.Preferences.Server;
+using LabFusion.Safety.AntiCheat;
 
 using MelonLoader;
 
@@ -35,6 +36,8 @@ public static class FusionPreferences
         prefCategory = MelonPreferences.CreateCategory("BONELAB Fusion");
 
         SavedServerSettings.OnInitialize(prefCategory);
+
+        FusionAntiCheatSettings.OnInitialize(prefCategory);
 
         ClientSettings.OnInitialize(prefCategory);
 

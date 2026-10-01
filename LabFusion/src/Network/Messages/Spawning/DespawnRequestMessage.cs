@@ -1,5 +1,6 @@
 ﻿using LabFusion.Entities;
 using LabFusion.Network.Serialization;
+using LabFusion.Safety.AntiCheat;
 
 namespace LabFusion.Network;
 
@@ -31,6 +32,11 @@ public class DespawnRequestMessage : NativeMessageHandler
     protected override void OnHandleMessage(ReceivedMessage received)
     {
         var data = received.ReadData<DespawnRequestData>();
+
+        if (!FusionAntiCheat.AllowDespawn(received, data.Entity.GetEntity()))
+        {
+            return;
+        }
 
         var response = new DespawnResponseData()
         {

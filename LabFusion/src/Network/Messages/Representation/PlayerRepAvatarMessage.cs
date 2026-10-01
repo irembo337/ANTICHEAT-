@@ -3,6 +3,7 @@ using LabFusion.Entities;
 using LabFusion.Marrow;
 using LabFusion.Network.Serialization;
 using LabFusion.Safety;
+using LabFusion.Safety.AntiCheat;
 using LabFusion.Utilities;
 
 namespace LabFusion.Network;
@@ -25,6 +26,12 @@ public class PlayerRepAvatarData : INetSerializable
 public class PlayerRepAvatarMessage : NativeMessageHandler
 {
     public override byte Tag => NativeMessageTag.PlayerRepAvatar;
+
+    protected override bool OnPreRelayMessage(ReceivedMessage received)
+    {
+        var data = received.ReadData<PlayerRepAvatarData>();
+        return FusionAntiCheat.ValidateAvatar(received, data.Stats, data.Barcode);
+    }
 
     protected override void OnHandleMessage(ReceivedMessage received)
     {

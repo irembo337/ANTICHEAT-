@@ -1,6 +1,11 @@
 # BONELAB Fusion Release
 A multiplayer mod for BONELAB featuring support for all platforms.
 
+> This fork includes an optional **host-side anti-cheat layer**. It validates
+> player poses and avatar stats before relay, rate-limits spawn and damage floods,
+> restricts despawning to an entity's owner, and records automatic sanctions in
+> Fusion's existing ban list. See [anti-cheat documentation](Docs/FusionAntiCheat.md).
+
 ![](https://i.imgur.com/1ZpMfei.png)
 
 ## Documentation

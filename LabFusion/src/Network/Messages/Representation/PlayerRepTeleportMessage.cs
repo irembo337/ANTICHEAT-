@@ -2,6 +2,7 @@
 using LabFusion.Network.Serialization;
 using LabFusion.Player;
 using LabFusion.Scene;
+using LabFusion.Safety.AntiCheat;
 
 using UnityEngine;
 
@@ -36,6 +37,11 @@ public class PlayerRepTeleportMessage : NativeMessageHandler
     public override byte Tag => NativeMessageTag.PlayerRepTeleport;
 
     public override ExpectedReceiverType ExpectedReceiver => ExpectedReceiverType.ClientsOnly;
+
+    protected override bool OnPreRelayMessage(ReceivedMessage received)
+    {
+        return FusionAntiCheat.AllowTeleportMessage(received);
+    }
 
     protected override void OnHandleMessage(ReceivedMessage received)
     {

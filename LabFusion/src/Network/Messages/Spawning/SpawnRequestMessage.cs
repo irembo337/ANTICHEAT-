@@ -5,6 +5,7 @@ using LabFusion.Entities;
 using LabFusion.Marrow;
 using LabFusion.Marrow.Serialization;
 using LabFusion.Safety;
+using LabFusion.Safety.AntiCheat;
 using LabFusion.Utilities;
 
 namespace LabFusion.Network;
@@ -18,6 +19,11 @@ public class SpawnRequestMessage : NativeMessageHandler
 
     protected override void OnHandleMessage(ReceivedMessage received)
     {
+        if (!FusionAntiCheat.AllowSpawn(received))
+        {
+            return;
+        }
+
         var data = received.ReadData<SerializedSpawnData>();
 
         // Check for spawnable blacklist

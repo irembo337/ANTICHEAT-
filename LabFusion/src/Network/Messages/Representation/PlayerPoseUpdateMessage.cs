@@ -2,6 +2,7 @@
 using LabFusion.Entities;
 using LabFusion.Utilities;
 using LabFusion.Network.Serialization;
+using LabFusion.Safety.AntiCheat;
 
 namespace LabFusion.Network;
 
@@ -33,6 +34,12 @@ public class PlayerPoseUpdateData : INetSerializable
 public class PlayerPoseUpdateMessage : NativeMessageHandler
 {
     public override byte Tag => NativeMessageTag.PlayerPoseUpdate;
+
+    protected override bool OnPreRelayMessage(ReceivedMessage received)
+    {
+        var data = received.ReadData<PlayerPoseUpdateData>();
+        return FusionAntiCheat.ValidatePose(received, data.Pose);
+    }
 
     protected override void OnHandleMessage(ReceivedMessage received)
     {

@@ -3,6 +3,7 @@ using LabFusion.Player;
 using LabFusion.Utilities;
 using LabFusion.Network.Serialization;
 using LabFusion.Marrow.Serialization;
+using LabFusion.Safety.AntiCheat;
 
 using Il2CppSLZ.Marrow;
 
@@ -29,6 +30,12 @@ public class PlayerRepDamageData : INetSerializable
 public class PlayerRepDamageMessage : NativeMessageHandler
 {
     public override byte Tag => NativeMessageTag.PlayerRepDamage;
+
+    protected override bool OnPreRelayMessage(ReceivedMessage received)
+    {
+        var data = received.ReadData<PlayerRepDamageData>();
+        return FusionAntiCheat.AllowDamage(received, data.Attack.Attack.damage);
+    }
 
     protected override void OnHandleMessage(ReceivedMessage received)
     {

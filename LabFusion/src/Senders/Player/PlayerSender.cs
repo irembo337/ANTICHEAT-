@@ -5,6 +5,7 @@ using LabFusion.Data;
 using LabFusion.Exceptions;
 using LabFusion.Network;
 using LabFusion.Player;
+using LabFusion.Safety.AntiCheat;
 
 using UnityEngine;
 
@@ -109,6 +110,8 @@ public static class PlayerSender
         {
             Position = position,
         };
+
+        FusionAntiCheat.AuthorizeTeleport(target);
 
         MessageRelay.RelayNative(data, NativeMessageTag.PlayerRepTeleport, new MessageRoute(target, NetworkChannel.Reliable));
     }
