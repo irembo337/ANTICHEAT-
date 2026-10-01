@@ -3,6 +3,24 @@
 The anti-cheat layer adds host-authoritative validation to existing Fusion messages. It
 does not add a new packet type, so it preserves the current Fusion wire protocol.
 
+## Source layout
+
+The implementation is split into auditable guards under
+`LabFusion/src/Safety/AntiCheat`:
+
+- `FusionAntiCheat.cs` — stable integration facade used by Fusion message handlers;
+- `AntiCheatContext.cs` — trust, strikes, kick/ban enforcement and shared validation;
+- `AntiCheatPlayerState.cs` — per-player counters, baselines and pending evidence;
+- `PacketFloodGuard.cs` — packet size, packet-rate and inbound-byte limits;
+- `MovementGuard.cs` — unauthorized teleport detection and host teleport grace;
+- `PlayerIntegrityGuard.cs` — god mode, stat changer and aim/freecam rig checks;
+- `AvatarGuard.cs` — OP avatar limits, allowlist and avatar-change policy;
+- `SpawnGuard.cs` — Spawn Lab, exploit spawnables, developer tools and spawn floods;
+- `ClientAbuseGuard.cs` — kill-all, damage flood, clean-scene and mass despawn;
+- `OwnershipGuard.cs` — forged and locked ownership requests;
+- `SdkMessageGuard.cs` — module/RPC payload and rate limits;
+- `FusionAntiCheatSettings.cs` — host-local configuration.
+
 ## Covered checks
 
 - malformed, non-finite, out-of-range health and pose values;
