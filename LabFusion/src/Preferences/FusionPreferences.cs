@@ -38,6 +38,7 @@ public static class FusionPreferences
         SavedServerSettings.OnInitialize(prefCategory);
 
         FusionAntiCheatSettings.OnInitialize(prefCategory);
+        FusionAntiCheat.OnInitialize();
 
         ClientSettings.OnInitialize(prefCategory);
 

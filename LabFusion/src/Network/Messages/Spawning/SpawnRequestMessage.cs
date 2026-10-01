@@ -19,12 +19,12 @@ public class SpawnRequestMessage : NativeMessageHandler
 
     protected override void OnHandleMessage(ReceivedMessage received)
     {
-        if (!FusionAntiCheat.AllowSpawn(received))
+        var data = received.ReadData<SerializedSpawnData>();
+
+        if (!FusionAntiCheat.AllowSpawn(received, data))
         {
             return;
         }
-
-        var data = received.ReadData<SerializedSpawnData>();
 
         // Check for spawnable blacklist
         if (ModBlacklist.IsBlacklisted(data.Barcode) || GlobalModBlacklistManager.IsBarcodeBlacklisted(data.Barcode))

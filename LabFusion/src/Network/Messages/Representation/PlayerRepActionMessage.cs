@@ -2,6 +2,7 @@
 using LabFusion.Network.Serialization;
 using LabFusion.Player;
 using LabFusion.Senders;
+using LabFusion.Safety.AntiCheat;
 using LabFusion.Utilities;
 
 namespace LabFusion.Network;
@@ -26,6 +27,12 @@ public class PlayerRepActionData : INetSerializable
 public class PlayerRepActionMessage : NativeMessageHandler
 {
     public override byte Tag => NativeMessageTag.PlayerRepAction;
+
+    protected override bool OnPreRelayMessage(ReceivedMessage received)
+    {
+        var data = received.ReadData<PlayerRepActionData>();
+        return FusionAntiCheat.AllowPlayerAction(received, data.Type);
+    }
 
     protected override void OnHandleMessage(ReceivedMessage received)
     {

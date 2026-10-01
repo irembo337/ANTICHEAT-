@@ -3,6 +3,7 @@
 using LabFusion.Exceptions;
 using LabFusion.Network.Serialization;
 using LabFusion.Player;
+using LabFusion.Safety.AntiCheat;
 using LabFusion.Utilities;
 
 namespace LabFusion.Network;
@@ -87,6 +88,11 @@ public abstract class NativeMessageHandler : MessageHandler
                     Bytes = bytes,
                     IsServerHandled = message.IsServerHandled,
                 };
+
+                if (!FusionAntiCheat.ValidateEnvelope(payload, tag))
+                {
+                    return;
+                }
 
                 Handlers[tag].StartHandlingMessage(payload);
             }

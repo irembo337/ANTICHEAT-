@@ -11,6 +11,11 @@ public class EntityOwnershipRequestMessage : NativeMessageHandler
         // Read request
         var data = received.ReadData<EntityPlayerData>();
 
+        if (!LabFusion.Safety.AntiCheat.FusionAntiCheat.AllowOwnershipRequest(received, data))
+        {
+            return;
+        }
+
         // Send response
         var response = new EntityPlayerData()
         {
